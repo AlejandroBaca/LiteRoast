@@ -18,6 +18,6 @@ $OutputPath = "<output path for file>"
 
 $Results | Where-Object {$_} | ForEach-Object {
     $spnString = ($($_.properties.serviceprincipalname) -join "`r`n").Trim()
-    $CsvOutput = [PSCustomObject]@{spn=$spnString;whenchanged=$($_.properties.whenchanged)}
+    $CsvOutput = [PSCustomObject]@{samAccountName=$($_.Properties.samAccountName);spn=$spnString;whenchanged=$($_.Properties.WhenChanged)}
     $CsvOutput | Export-Csv -Path $OutputPath -NoTypeInformation -Append
 }
