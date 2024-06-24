@@ -1,6 +1,6 @@
 Add-Type -AssemblyName System.IdentityModel
 $UserSPN = $Args[0]
-$Domain = $Args[1]
+$Domain = $env:USERDNSDOMAIN
 
 $Ticket = New-Object System.IdentityModel.Tokens.KerberosRequestorSecurityToken -ArgumentList $UserSPN
 $TicketByteStream = $Ticket.GetRequest()
